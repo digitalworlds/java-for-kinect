@@ -7,5 +7,15 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="j4kdemo/ufdw"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/jogl/gluegen-rt.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jogl"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/jogl/jogl-all.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jogl"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
