@@ -47,6 +47,11 @@ notice, this list of conditions and the following disclaimer.
 copyright notice, this list of conditions and the following disclaimer
 in the documentation and/or other materials provided with the
 distribution.
+   * When this program is used for academic or research purposes, 
+please cite the following article that introduced this Java library: 
+A. Barmpoutis. "Tensor Body: Real-time Reconstruction of the Human Body 
+and Avatar Synthesis from RGB-D', IEEE Transactions on Cybernetics, 
+October 2013, Vol. 43(5), Pages: 1347-1356. 
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
