@@ -14,6 +14,8 @@ please cite the following article that introduced this Java library:
 A. Barmpoutis. "Tensor Body: Real-time Reconstruction of the Human Body 
 and Avatar Synthesis from RGB-D', IEEE Transactions on Cybernetics, 
 October 2013, Vol. 43(5), Pages: 1347-1356. 
+http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=6583279
+http://www.digitalworlds.ufl.edu/angelos/publications.php
 
 ----------------------------------------------------
 The web-site of this project:
