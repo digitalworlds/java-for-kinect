@@ -15,7 +15,7 @@ A. Barmpoutis. "Tensor Body: Real-time Reconstruction of the Human Body
 and Avatar Synthesis from RGB-D', IEEE Transactions on Cybernetics, 
 October 2013, Vol. 43(5), Pages: 1347-1356. 
 Link 1: [https://doi.org/10.1109/TCYB.2013.2276430](https://doi.org/10.1109/TCYB.2013.2276430)
-Link 2: [http://www.digitalworlds.ufl.edu/angelos/publications.php](https://abarmpou.github.io/angelos/publications.html)
+Link 2: [https://abarmpou.github.io/angelos/publications.html](https://abarmpou.github.io/angelos/publications.html)
 
 ----------------------------------------------------
 The web-site of this project:
