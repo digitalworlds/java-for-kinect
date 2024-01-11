@@ -19,19 +19,19 @@ Link 2: [https://abarmpou.github.io/angelos/publications.html](https://abarmpou.
 
 ----------------------------------------------------
 The web-site of this project:
-[http://research.dwi.ufl.edu/ufdw/j4k/](https://abarmpou.github.io/ufdw/j4k/)
+[http://abarmpou.github.io/ufdw/j4k/](https://abarmpou.github.io/ufdw/j4k/)
 
 Source code examples:
-[http://research.dwi.ufl.edu/ufdw/j4k/examples.php](https://abarmpou.github.io/ufdw/j4k/examples.html)
+[http://abarmpou.github.io/ufdw/j4k/examples.html](https://abarmpou.github.io/ufdw/j4k/examples.html)
 
 How to write a Java-Kinect project in less than 10 lines of Java code:
-[http://research.dwi.ufl.edu/ufdw/j4k/examples.php#how](https://abarmpou.github.io/ufdw/j4k/examples.html#how)
+[http://abarmpou.github.io/ufdw/j4k/examples.html#how](https://abarmpou.github.io/ufdw/j4k/examples.html#how)
 
 How to develop Kinect applications in Java / OpenGL / Eclipse:
 http://www.youtube.com/watch?v=q0K4Y4g-hj0
 
 How to install this project in Eclipse:
-[http://research.dwi.ufl.edu/ufdw/j4k/eclipse.php](https://abarmpou.github.io/ufdw/j4k/eclipse.html)
+[http://abarmpou.github.io/ufdw/j4k/eclipse.html](https://abarmpou.github.io/ufdw/j4k/eclipse.html)
 
 
 ----------------------------------------------------
