@@ -14,24 +14,24 @@ please cite the following article that introduced this Java library:
 A. Barmpoutis. "Tensor Body: Real-time Reconstruction of the Human Body 
 and Avatar Synthesis from RGB-D', IEEE Transactions on Cybernetics, 
 October 2013, Vol. 43(5), Pages: 1347-1356. 
-Link 1: http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=6583279
-Link 2: http://www.digitalworlds.ufl.edu/angelos/publications.php
+Link 1: [https://doi.org/10.1109/TCYB.2013.2276430](https://doi.org/10.1109/TCYB.2013.2276430)
+Link 2: [http://www.digitalworlds.ufl.edu/angelos/publications.php](https://abarmpou.github.io/angelos/publications.html)
 
 ----------------------------------------------------
 The web-site of this project:
-http://research.dwi.ufl.edu/ufdw/j4k/
+[http://research.dwi.ufl.edu/ufdw/j4k/](https://abarmpou.github.io/ufdw/j4k/)
 
 Source code examples:
-http://research.dwi.ufl.edu/ufdw/j4k/examples.php
+[http://research.dwi.ufl.edu/ufdw/j4k/examples.php](https://abarmpou.github.io/ufdw/j4k/examples.html)
 
 How to write a Java-Kinect project in less than 10 lines of Java code:
-http://research.dwi.ufl.edu/ufdw/j4k/examples.php#how
+[http://research.dwi.ufl.edu/ufdw/j4k/examples.php#how](https://abarmpou.github.io/ufdw/j4k/examples.html#how)
 
 How to develop Kinect applications in Java / OpenGL / Eclipse:
 http://www.youtube.com/watch?v=q0K4Y4g-hj0
 
 How to install this project in Eclipse:
-http://research.dwi.ufl.edu/ufdw/j4k/eclipse.php
+[http://research.dwi.ufl.edu/ufdw/j4k/eclipse.php](https://abarmpou.github.io/ufdw/j4k/eclipse.html)
 
 
 ----------------------------------------------------
