@@ -3,7 +3,7 @@ package j4kdemo.multiplekinectapp;
 import edu.ufl.digitalworlds.gui.DWApplet;
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *

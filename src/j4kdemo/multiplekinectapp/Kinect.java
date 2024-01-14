@@ -3,7 +3,7 @@ package j4kdemo.multiplekinectapp;
 import edu.ufl.digitalworlds.j4k.J4KSDK;
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *
@@ -37,17 +37,15 @@ import edu.ufl.digitalworlds.j4k.J4KSDK;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 public class Kinect extends J4KSDK{
-
-	
 	
 	@Override
-	public void onDepthFrameEvent(short[] depth, int[] U, int V[]) {}
+	public void onColorFrameEvent(byte[] color_frame) {}
 
 	@Override
-	public void onSkeletonFrameEvent(float[] data, boolean[] flags) {}
+	public void onDepthFrameEvent(short[] depth_frame, byte[] body_index, float[] xyz, float[] uv) {}
 
 	@Override
-	public void onVideoFrameEvent(byte[] data) {}
+	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions,float[] orientations, byte[] joint_status) {}
 
 
 }

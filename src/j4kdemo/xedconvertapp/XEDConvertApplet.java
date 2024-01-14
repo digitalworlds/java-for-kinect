@@ -3,7 +3,7 @@ package j4kdemo.xedconvertapp;
 import edu.ufl.digitalworlds.gui.DWApplet;
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *
@@ -41,10 +41,9 @@ public class XEDConvertApplet extends DWApplet
 {
 	public void init()
 	{
-		createMainFrame("XED Convert Applet");
+		createMainFrame("J4K");
     	XEDConvertApp.app=new XEDConvertApp();
     	setFrameSize(730,570,null);
 	}
 }
-
 

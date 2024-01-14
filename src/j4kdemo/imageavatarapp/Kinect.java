@@ -5,7 +5,7 @@ import edu.ufl.digitalworlds.j4k.Skeleton;
 
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *
@@ -46,16 +46,17 @@ public class Kinect extends J4KSDK{
 	public void setViewer(ViewerPanel3D viewer){this.viewer=viewer;}
 	
 	@Override
-	public void onSkeletonFrameEvent(float[] data, boolean[] flags) {
+	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions,float[] orientations, byte[] joint_status) {
 		if(viewer==null || viewer.skeletons==null)return;
-		for(int i=0;i<Kinect.NUI_SKELETON_COUNT;i++)
-		viewer.skeletons[i]=Skeleton.getSkeleton(i, data, flags);
+		for(int i=0;i<this.getMaxNumberOfSkeletons();i++)
+		viewer.skeletons[i]=Skeleton.getSkeleton(i, skeleton_tracked, positions,orientations,joint_status,this);
 	}
 
 	@Override
-	public void onVideoFrameEvent(byte[] data) {}
+	public void onColorFrameEvent(byte[] color_frame) {}
 	
 	@Override
-	public void onDepthFrameEvent(short[] depth, int[] U, int V[]) {}
+	public void onDepthFrameEvent(short[] depth_frame, byte[] body_index, float[] xyz, float[] uv) {}
+
 
 }

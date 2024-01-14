@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 import edu.ufl.digitalworlds.files.FileUtils;
 import edu.ufl.digitalworlds.j4k.ImageAvatar;
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *

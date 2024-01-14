@@ -1,19 +1,20 @@
 package j4kdemo.xedconvertapp;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-
-
 import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.ufl.digitalworlds.gui.DWApp;
 import edu.ufl.digitalworlds.j4k.J4KSDK;
+import edu.ufl.digitalworlds.utils.ProgressListener;
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *
@@ -47,80 +48,96 @@ import edu.ufl.digitalworlds.j4k.J4KSDK;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 @SuppressWarnings("serial")
-public class XEDConvertApp extends DWApp
-{
+public class XEDConvertApp extends DWApp implements ProgressListener{
+
+	JButton button;
+	public JLabel fps;
+	KinectRecorder kinect;
 	
-	public Kinect myKinect;
-	JButton save;
-	String most_recent_path="";
-	
-	public void GUIsetup(JPanel p_root) {
+	@Override
+	public void GUIsetup(JPanel root) {
 		
+		if(System.getProperty("os.arch").toLowerCase().indexOf("64")<0)
+		{
+			if(DWApp.showConfirmDialog("Performance Warning", "<html><center><br>WARNING: You are running a 32bit version of Java.<br>This may reduce significantly the performance of this application.<br>It is strongly adviced to exit this program and install a 64bit version of Java.<br><br>Do you want to exit now?</center>"))
+				System.exit(0);
+		}
 		
 		setLoadingProgress("Intitializing Kinect...",20);
-		
-		myKinect=new Kinect();
-		if(myKinect.start(true,J4KSDK.NUI_IMAGE_RESOLUTION_320x240,J4KSDK.NUI_IMAGE_RESOLUTION_640x480)==0)
+		kinect=new KinectRecorder(this);
+		if(!kinect.start(J4KSDK.DEPTH|J4KSDK.COLOR))
 		{
-			DWApp.showErrorDialog("ERROR", "<html><center><br>ERROR: The Kinect device could not be initialized.<br><br>1. Check if the Microsoft's Kinect SDK was succesfully installed on this computer.<br> 2. Check if the Kinect is plugged into a power outlet.<br>3. Check if the Kinect is connected to a USB port of this computer.</center>");
-			System.exit(0); 
+			DWApp.showErrorDialog("ERROR", "<html><center><br>ERROR: The Kinect device could not be initialized.<br><br>1. Check if the Microsoft's Kinect SDK was succesfully installed on this computer.<br> 2. Check if the Kinect is plugged into a power outlet.<br>3. Check if the Kinect is connected to a USB port of this computer.</center>");	
 		}
-		myKinect.setNearMode(true);
+		else
+		{
+			kinect.setNearMode(false);
+		}
 		
-			save=new JButton("Save");
-			save.addActionListener(this);
-			p_root.add(save);
+		setLoadingProgress("Intitializing Window...",80);
+		button=new JButton("Start");
+		button.addActionListener(this);
+		fps=new JLabel("0");
+		
+		JPanel panel=new JPanel(new GridLayout(1,0));
+		panel.add(button);
+		panel.add(fps);
+		root.add(panel);
+		
 	}
-	
+
 	public void GUIclosing()
 	{
-		myKinect.closeDepthFile();
-		myKinect.stop();
+		kinect.stop();
 	}
 	
-	
-	public void GUIactionPerformed(ActionEvent e)
-	{
-		if(e.getSource()==save && save.getText().compareTo("Save")==0)
-		{
-			JFileChooser chooser = new JFileChooser();
-	        chooser.setFileHidingEnabled(false);
-	        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-	        chooser.setMultiSelectionEnabled(false);
-	        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-	        if(most_recent_path.length()>0)
-				chooser.setCurrentDirectory(new File(most_recent_path));
-	        chooser.setDialogTitle("Save depth frames");
-	        chooser.setApproveButtonText("Save"); 
-	        
-	        if (chooser.showSaveDialog(this)== JFileChooser.APPROVE_OPTION) 
-	        {
-	        	most_recent_path=chooser.getCurrentDirectory().getAbsolutePath();
-	        	String filename=chooser.getSelectedFile().getAbsolutePath();
-	        	myKinect.saveDepthFrames(filename);
-	        	save.setText("Stop");
-	        }
-		}
-		else if(e.getSource()==save && save.getText().compareTo("Stop")==0)
-		{
-			myKinect.stop();
-			myKinect.closeDepthFile();
-			if(myKinect.start(true,J4KSDK.NUI_IMAGE_RESOLUTION_320x240,J4KSDK.NUI_IMAGE_RESOLUTION_640x480)==0)
-			{
-				DWApp.showErrorDialog("ERROR", "<html><center><br>ERROR: The Kinect device could not be initialized.<br><br>1. Check if the Microsoft's Kinect SDK was succesfully installed on this computer.<br> 2. Check if the Kinect is plugged into a power outlet.<br>3. Check if the Kinect is connected to a USB port of this computer.</center>");
-				System.exit(0); 
-			}
-			myKinect.setNearMode(true);
-			
-			save.setText("Save");
-		}
-	}
 	
 	public static void main(String args[]) {
 		
-    	createMainFrame("XED Convert App");
+    	createMainFrame("J4K");
     	app=new XEDConvertApp();
-    	setFrameSize(730,570,null);
+    	setFrameSize(200,100,null);
     }
+	
+	@Override
+	public void GUIactionPerformed(ActionEvent e)
+	{
+		if(e.getSource()==button)
+		{
+			if(button.getText().compareTo("Start")==0)
+			{
+				JFileChooser chooser = new JFileChooser();
+		        chooser.setFileHidingEnabled(false);
+		        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		        chooser.setMultiSelectionEnabled(false);
+		        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+		        if(getMostRecentPath().length()>0)
+					chooser.setCurrentDirectory(new File(getMostRecentPath()));
+		        chooser.setDialogTitle("Save Kinect Data (zip)");
+		        chooser.setApproveButtonText("Save"); 
+		        
+		        if (chooser.showSaveDialog(this)== JFileChooser.APPROVE_OPTION) 
+		        {
+		        	setMostRecentPath(chooser.getCurrentDirectory().getAbsolutePath());
+		        	String filename=chooser.getSelectedFile().getAbsolutePath();
+					kinect.startRecording(filename);
+					button.setText("Stop");
+		        }
+			}
+			else
+			{
+				kinect.stopRecording();
+				button.setEnabled(false);
+				button.setText("Start");
+			}
+		}
+	}
 
+	int max_progress=1;
+	
+	@Override
+	public void setMaxProgress(int value) {max_progress=value;}
+
+	@Override
+	public void setProgress(int value) {fps.setText(""+(int)(value*100f/max_progress)+"%");if(value==max_progress)button.setEnabled(true);}
 }

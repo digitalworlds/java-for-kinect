@@ -10,11 +10,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
 import edu.ufl.digitalworlds.gui.DWApp;
+import edu.ufl.digitalworlds.j4k.J4KSDK;
 import edu.ufl.digitalworlds.j4k.SkeletonStreamSimulator;
 import edu.ufl.digitalworlds.opengl.OpenGLImageComposition;
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *
@@ -61,15 +62,17 @@ public class ImageAvatarApp extends DWApp
 	ViewerPanel3D main_panel;
 	public void GUIsetup(JPanel p_root) {
 		
+		if(System.getProperty("os.arch").toLowerCase().indexOf("64")<0)
+		{
+			if(DWApp.showConfirmDialog("Performance Warning", "<html><center><br>WARNING: You are running a 32bit version of Java.<br>This may reduce significantly the performance of this application.<br>It is strongly adviced to exit this program and install a 64bit version of Java.<br><br>Do you want to exit now?</center>"))
+				System.exit(0);
+		}
 		
 		setLoadingProgress("Intitializing Kinect...",20);
 		myKinect=new Kinect();
-		if(myKinect.start(true,Kinect.NUI_IMAGE_RESOLUTION_320x240,Kinect.NUI_IMAGE_RESOLUTION_640x480)==0)
+		if(!myKinect.start(J4KSDK.DEPTH|J4KSDK.SKELETON))
 		{
-			DWApp.showInformationDialog("Information", "<html><center><br>There was no Kinect sensor detected in your system.<br><br>That's ok!<br>The program will run using a simulation of a Kinect skeleton stream.</center>");
-			stream=new SkeletonStreamSimulator(myKinect);
-			stream.showTwoSkeletons(true);
-			stream.start();
+			DWApp.showInformationDialog("Information", "<html><center><br>There was no Kinect sensor detected in your system.</center>");
 		}
 				
 		

@@ -7,9 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.ufl.digitalworlds.gui.DWApp;
+import edu.ufl.digitalworlds.j4k.J4KSDK;
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *
@@ -64,25 +65,20 @@ public class MultipleKinectApp extends DWApp
 		
 		setLoadingProgress("Intitializing Kinect...",20);
 		kinect1=new Kinect();
-		if(kinect1.start(true,Kinect.NUI_IMAGE_RESOLUTION_320x240,Kinect.NUI_IMAGE_RESOLUTION_640x480)==0)
+		if(!kinect1.start(J4KSDK.COLOR|J4KSDK.DEPTH|J4KSDK.UV|J4KSDK.XYZ|J4KSDK.SKELETON))
 		{
 			DWApp.showErrorDialog("ERROR", "<html><center><br>ERROR: The Kinect #1 device could not be initialized.<br><br>1. Check if the Microsoft's Kinect SDK was succesfully installed on this computer.<br> 2. Check if the Kinect is plugged into a power outlet.<br>3. Check if the Kinect is connected to a USB port of this computer.</center>");
 			//System.exit(0); 
 		}
-		kinect1.computeUV(true);
 		
-		kinect1.showViewerDialog(false);
 		
 		kinect2=new Kinect();
-		if(kinect2.start(true,Kinect.NUI_IMAGE_RESOLUTION_320x240,Kinect.NUI_IMAGE_RESOLUTION_640x480)==0)
+		if(!kinect2.start(J4KSDK.COLOR|J4KSDK.DEPTH|J4KSDK.UV|J4KSDK.XYZ|J4KSDK.SKELETON))
 		{
 			DWApp.showErrorDialog("ERROR", "<html><center><br>ERROR: The Kinect #2 device could not be initialized.<br><br>1. Check if the Microsoft's Kinect SDK was succesfully installed on this computer.<br> 2. Check if the Kinect is plugged into a power outlet.<br>3. Check if the Kinect is connected to a USB port of this computer.</center>");
 			//System.exit(0); 
 		}
-		kinect2.computeUV(true);
 		
-
-		kinect2.showViewerDialog(false);
 		
 	}
 	
@@ -97,7 +93,7 @@ public class MultipleKinectApp extends DWApp
 		
     	createMainFrame("Two Kinects App");
     	app=new MultipleKinectApp();
-    	setFrameSize(730,570,null);
+    	setFrameSize(730,270,null);
     }
 	
 	@Override

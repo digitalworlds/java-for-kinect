@@ -13,9 +13,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.ufl.digitalworlds.gui.DWApp;
+import edu.ufl.digitalworlds.j4k.J4K1;
+import edu.ufl.digitalworlds.j4k.J4K2;
+import edu.ufl.digitalworlds.j4k.J4KSDK;
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *
@@ -57,7 +60,7 @@ public class KinectViewerApp extends DWApp implements ChangeListener
 	JSlider elevation_angle;
 	JCheckBox near_mode;
 	JCheckBox seated_skeleton;
-	JCheckBox track_skeleton;
+	JCheckBox show_infrared;
 	JButton turn_off;
 	JComboBox depth_resolution;
 	JComboBox video_resolution;
@@ -68,21 +71,34 @@ public class KinectViewerApp extends DWApp implements ChangeListener
 	public void GUIsetup(JPanel p_root) {
 		
 		
+		if(System.getProperty("os.arch").toLowerCase().indexOf("64")<0)
+		{
+			if(DWApp.showConfirmDialog("Performance Warning", "<html><center><br>WARNING: You are running a 32bit version of Java.<br>This may reduce significantly the performance of this application.<br>It is strongly adviced to exit this program and install a 64bit version of Java.<br><br>Do you want to exit now?</center>"))
+				System.exit(0);
+		}
+		
 		setLoadingProgress("Intitializing Kinect...",20);
 		myKinect=new Kinect();
-		if(myKinect.start(true,Kinect.NUI_IMAGE_RESOLUTION_320x240,Kinect.NUI_IMAGE_RESOLUTION_640x480)==0)
+		
+		
+		if(!myKinect.start(Kinect.DEPTH| Kinect.COLOR |Kinect.SKELETON |Kinect.XYZ|Kinect.PLAYER_INDEX))
 		{
 			DWApp.showErrorDialog("ERROR", "<html><center><br>ERROR: The Kinect device could not be initialized.<br><br>1. Check if the Microsoft's Kinect SDK was succesfully installed on this computer.<br> 2. Check if the Kinect is plugged into a power outlet.<br>3. Check if the Kinect is connected to a USB port of this computer.</center>");
 			//System.exit(0); 
 		}
 		
-		myKinect.computeUV(true);
+		//System.out.println(((J4K2)myKinect.getJ4KClass()).getIndex());
+		//myKinect.computeUV(true);
+		//myKinect.setNearMode(true);
 		
 		near_mode=new JCheckBox("Near mode");
+		near_mode.setSelected(false);
 		near_mode.addActionListener(this);
+		if(myKinect.getDeviceType()!=J4KSDK.MICROSOFT_KINECT_1) near_mode.setEnabled(false);
 		
 		seated_skeleton=new JCheckBox("Seated skeleton");
 		seated_skeleton.addActionListener(this);
+		if(myKinect.getDeviceType()!=J4KSDK.MICROSOFT_KINECT_1) seated_skeleton.setEnabled(false);
 		
 		elevation_angle=new JSlider();
 		elevation_angle.setMinimum(-27);
@@ -95,24 +111,42 @@ public class KinectViewerApp extends DWApp implements ChangeListener
 		turn_off.addActionListener(this);
 		
 		depth_resolution=new JComboBox();
-		depth_resolution.addItem("80x60");
-		depth_resolution.addItem("320x240");
-		depth_resolution.addItem("640x480");
-		depth_resolution.setSelectedIndex(1);
+		if(myKinect.getDeviceType()==J4KSDK.MICROSOFT_KINECT_1)
+		{
+			depth_resolution.addItem("80x60");
+			depth_resolution.addItem("320x240");
+			depth_resolution.addItem("640x480");
+			depth_resolution.setSelectedIndex(1);
+		}
+		else if(myKinect.getDeviceType()==J4KSDK.MICROSOFT_KINECT_2)
+		{
+			depth_resolution.addItem("512x424");
+			depth_resolution.setSelectedIndex(0);
+		}
 		depth_resolution.addActionListener(this);
 		
 		video_resolution=new JComboBox();
-		video_resolution.addItem("640x480");
-		video_resolution.addItem("1280x960");
-		video_resolution.setSelectedIndex(0);
+		if(myKinect.getDeviceType()==J4KSDK.MICROSOFT_KINECT_1)
+		{
+			video_resolution.addItem("640x480");
+			video_resolution.addItem("1280x960");
+			video_resolution.setSelectedIndex(0);
+		}
+		else if(myKinect.getDeviceType()==J4KSDK.MICROSOFT_KINECT_2)
+		{
+			video_resolution.addItem("1920x1080"); 
+			video_resolution.setSelectedIndex(0);
+		}
+		 
+		
 		video_resolution.addActionListener(this);
 		
-		track_skeleton=new JCheckBox("Track Skeletons");
-		track_skeleton.setSelected(true);
-		track_skeleton.addActionListener(this);
+		show_infrared=new JCheckBox("Infrared");
+		show_infrared.setSelected(false);
+		show_infrared.addActionListener(this);
 		
-		show_video=new JCheckBox("Show video");
-		show_video.setSelected(true);
+		show_video=new JCheckBox("Show texture");
+		show_video.setSelected(false);
 		show_video.addActionListener(this);
 		
 		mask_players=new JCheckBox("Mask Players");
@@ -122,25 +156,27 @@ public class KinectViewerApp extends DWApp implements ChangeListener
 		JPanel controls=new JPanel(new GridLayout(0,6));
 		controls.add(new JLabel("Depth Stream:"));
 		controls.add(depth_resolution);
-		controls.add(near_mode);
-		
-		controls.add(new JLabel("Video Stream:"));
-		controls.add(video_resolution);
-		controls.add(show_video);
-		
-		controls.add(new JLabel("Skeleton Stream:"));
-		controls.add(track_skeleton);
-		controls.add(seated_skeleton);
-		
 		controls.add(mask_players);
+		controls.add(near_mode);
+		controls.add(seated_skeleton);
 		accelerometer=new JLabel("0,0,0");
 		controls.add(accelerometer);
+		
+		
+		controls.add(new JLabel("Texture Stream:"));
+		controls.add(video_resolution);
+		controls.add(show_infrared);
+		
+		controls.add(show_video);
 		controls.add(elevation_angle);
-		//controls.add(turn_off);
+		
+		controls.add(turn_off);
+		
 		
 		
 		setLoadingProgress("Intitializing OpenGL...",60);
 		main_panel=new ViewerPanel3D();
+		main_panel.setShowVideo(false);
 		myKinect.setViewer(main_panel);
 		myKinect.setLabel(accelerometer);
 		
@@ -159,19 +195,26 @@ public class KinectViewerApp extends DWApp implements ChangeListener
 		if(turn_off.getText().compareTo("Turn on")==0) return;
 		
 		myKinect.stop();
-		int depth_res=Kinect.NUI_IMAGE_RESOLUTION_INVALID;
-		if(depth_resolution.getSelectedIndex()==0) depth_res=Kinect.NUI_IMAGE_RESOLUTION_80x60;
-		else if(depth_resolution.getSelectedIndex()==1) depth_res=Kinect.NUI_IMAGE_RESOLUTION_320x240;
-		else if(depth_resolution.getSelectedIndex()==2) depth_res=Kinect.NUI_IMAGE_RESOLUTION_640x480;
+		int depth_res=J4K1.NUI_IMAGE_RESOLUTION_INVALID;
+		if(depth_resolution.getSelectedIndex()==0) myKinect.setDepthResolution(80, 60);//  depth_res=J4K1.NUI_IMAGE_RESOLUTION_80x60;
+		else if(depth_resolution.getSelectedIndex()==1) myKinect.setDepthResolution(320, 240);//depth_res=J4K1.NUI_IMAGE_RESOLUTION_320x240;
+		else if(depth_resolution.getSelectedIndex()==2) myKinect.setDepthResolution(640, 480);//depth_res=J4K1.NUI_IMAGE_RESOLUTION_640x480;
 		
-		int video_res=Kinect.NUI_IMAGE_RESOLUTION_INVALID;
-		if(video_resolution.getSelectedIndex()==0) video_res=Kinect.NUI_IMAGE_RESOLUTION_640x480;
-		else if(video_resolution.getSelectedIndex()==1) video_res=Kinect.NUI_IMAGE_RESOLUTION_1280x960;
+		int video_res=J4K1.NUI_IMAGE_RESOLUTION_INVALID;
+		if(video_resolution.getSelectedIndex()==0) myKinect.setColorResolution(640, 480);//video_res=J4K1.NUI_IMAGE_RESOLUTION_640x480;
+		else if(video_resolution.getSelectedIndex()==1) myKinect.setDepthResolution(1280, 960);//video_res=J4K1.NUI_IMAGE_RESOLUTION_1280x960;
 		
-		
-		myKinect.start(track_skeleton.isSelected(),depth_res,video_res);
-		myKinect.computeUV(true);
-		if(seated_skeleton.isSelected())myKinect.startSkeletonTracking(true);
+		int flags=Kinect.SKELETON;
+		flags=flags|Kinect.COLOR;
+		flags=flags|Kinect.DEPTH;
+		flags=flags|Kinect.XYZ;
+		if(show_infrared.isSelected()) {flags=flags|Kinect.INFRARED; myKinect.updateTextureUsingInfrared(true);}
+		else myKinect.updateTextureUsingInfrared(false);
+			
+		myKinect.start(flags);
+		if(show_video.isSelected())myKinect.computeUV(true);
+		else myKinect.computeUV(false);
+		if(seated_skeleton.isSelected())myKinect.setSeatedSkeletonTracking(true);
 		if(near_mode.isSelected()) myKinect.setNearMode(true);
 	}
 	
@@ -192,17 +235,12 @@ public class KinectViewerApp extends DWApp implements ChangeListener
 		}
 		else if(e.getSource()==seated_skeleton)
 		{
-			if(seated_skeleton.isSelected()) myKinect.startSkeletonTracking(true);
-			else myKinect.startSkeletonTracking(false);
+			if(seated_skeleton.isSelected()) myKinect.setSeatedSkeletonTracking(true);
+			else myKinect.setSeatedSkeletonTracking(false);
 		}
-		else if(e.getSource()==track_skeleton)
+		else if(e.getSource()==show_infrared)
 		{
-			if(track_skeleton.isSelected())
-			{
-				if(seated_skeleton.isSelected()) myKinect.startSkeletonTracking(true);
-				else myKinect.startSkeletonTracking(false);
-			}
-			else myKinect.stopSkeletonTracking();
+			resetKinect();
 		}
 		else if(e.getSource()==turn_off)
 		{
@@ -228,6 +266,8 @@ public class KinectViewerApp extends DWApp implements ChangeListener
 		else if(e.getSource()==show_video)
 		{
 			main_panel.setShowVideo(show_video.isSelected());
+			if(show_video.isSelected()) myKinect.computeUV(true);
+			else myKinect.computeUV(false);
 		}
 		else if(e.getSource()==mask_players)
 		{

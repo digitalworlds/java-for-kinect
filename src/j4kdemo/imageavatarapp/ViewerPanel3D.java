@@ -10,7 +10,7 @@ import edu.ufl.digitalworlds.opengl.OpenGLPanel;
 import edu.ufl.digitalworlds.j4k.Skeleton;
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *
@@ -80,7 +80,7 @@ public class ViewerPanel3D extends OpenGLPanel
 
 		    gl.glBlendFunc (GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
 			
-			skeletons=new Skeleton[Kinect.NUI_SKELETON_COUNT];
+			skeletons=new Skeleton[6];
 			
 		    background(0, 0, 0);	
 	}	
@@ -128,7 +128,7 @@ public class ViewerPanel3D extends OpenGLPanel
 	    gl.glDisable(GL2.GL_LIGHTING);
 	    gl.glDisable(GL2.GL_CULL_FACE);
 	    int avatars_drawn=0;
-	    for(int i=0;i<Kinect.NUI_SKELETON_COUNT;i++)
+	    for(int i=0;i<6;i++)
 	    	if(skeletons[i]!=null) 
 	    	{
 	    		if(skeletons[i].getTimesDrawn()<=10 && skeletons[i].isTracked())

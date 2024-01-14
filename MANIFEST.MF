@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Permissions: all-permissions
+Class-Path: lib/ufdw.jar lib/jogl-all.jar lib/gluegen-rt.jar
+Main-Class: j4kdemo.kinectviewerapp.KinectViewerApp

@@ -11,7 +11,7 @@ import edu.ufl.digitalworlds.j4k.Skeleton;
 import edu.ufl.digitalworlds.j4k.VideoFrame;
 
 /*
- * Copyright 2011, Digital Worlds Institute, University of 
+ * Copyright 2011-2014, Digital Worlds Institute, University of 
  * Florida, Angelos Barmpoutis.
  * All rights reserved.
  *
@@ -52,7 +52,7 @@ public class ViewerPanel3D extends OpenGLPanel
 	
 	DepthMap map=null;
 	boolean is_playing=false;
-	boolean show_video=true;
+	boolean show_video=false;
 	
 	public void setShowVideo(boolean flag){show_video=flag;}
 	
@@ -84,7 +84,7 @@ public class ViewerPanel3D extends OpenGLPanel
 			gl.glColor3f(0.9f,0.9f,0.9f);
 		    
 			
-			skeletons=new Skeleton[Kinect.NUI_SKELETON_COUNT];
+			skeletons=new Skeleton[6];
 			
 			videoTexture=new VideoFrame();
 			
@@ -106,6 +106,7 @@ public class ViewerPanel3D extends OpenGLPanel
 	    translate(0,0,2);        
 	    
 	  
+	    
 	    if(map!=null) 
 	    {
 	    	if(show_video)
@@ -131,7 +132,7 @@ public class ViewerPanel3D extends OpenGLPanel
 	    gl.glDisable(GL2.GL_LIGHTING);
 	    gl.glLineWidth(2);
 	    gl.glColor3f(1f,0f,0f);
-	    for(int i=0;i<Kinect.NUI_SKELETON_COUNT;i++)
+	    for(int i=0;i<skeletons.length;i++)
 	    	if(skeletons[i]!=null) 
 	    	{
 	    		if(skeletons[i].getTimesDrawn()<=10 && skeletons[i].isTracked())
