@@ -4,22 +4,11 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Program Files/Java/jre6/bin"/>
+			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/ufdw/ufdw.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ufdw"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/jogl/gluegen-rt.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jogl"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/jogl/jogl-all.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jogl"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="lib/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/jogl-all.jar"/>
+	<classpathentry kind="lib" path="lib/ufdw.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
